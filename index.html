@@ -54,6 +54,15 @@
       gap: 1.5rem;
       margin-top: 2rem;
     }
+    .card img {
+      width: 100%;
+      max-height: 250px; /* Adjust to taste */
+      object-fit: cover; /* Crop to fit while keeping aspect ratio */
+      margin-top: 1rem;
+      border-radius: 6px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
     .card {
       background: white;
       padding: 1.5rem;
@@ -112,13 +121,10 @@
       <div class="card">
         <h3>Scientific Illustration</h3>
         <p>Pedagogical diagrams and schematics tailored for publications, reports, and educational material.</p>
-        <!-- Clickable image -->
         <img src="images/Poster_Methane_ICAR.png" 
              alt="Example of an infographic for a Project overview"
-             style="width:100%; max-height:250px; object-fit:cover; margin-top:1rem; border-radius:6px; box-shadow:0px 2px 6px rgba(0,0,0,0.1); cursor:pointer;"
              onclick="openLightbox(this.src)">
-      </div>
-      
+      </div>      
       <!-- Lightbox -->
       <div id="lightbox" style="
         display:none; 
@@ -151,8 +157,7 @@
       
         <!-- Clickable image -->
         <img src="images/red_project.png" 
-             alt="Example of an infographic for a Project overview"
-             style="width:100%; margin-top:1rem; border-radius:6px; box-shadow:0px 2px 6px rgba(0,0,0,0.1); cursor:pointer;"
+             alt="Example of an infographic for a Project overview"             
              onclick="openLightbox(this.src)">
       </div>
       
