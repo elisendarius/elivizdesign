@@ -112,7 +112,40 @@
       <div class="card">
         <h3>Scientific Illustration</h3>
         <p>Pedagogical diagrams and schematics tailored for publications, reports, and educational material.</p>
-      </div>
+        <!-- Clickable image -->
+        <img src="images/Poster_Methane_ICAR.png" 
+        alt="Example of an infographic for a Project overview"
+        style="width:100%; margin-top:1rem; border-radius:6px; box-shadow:0px 2px 6px rgba(0,0,0,0.1); cursor:pointer;"
+        onclick="openLightbox(this.src)">
+       </div>
+ 
+      <!-- Lightbox -->
+      <div id="lightbox" style="
+      display:none; 
+      position:fixed; 
+      z-index:1000; 
+      left:0; 
+      top:0; 
+      width:100%; 
+      height:100%; 
+      background:rgba(0,0,0,0.8); 
+      align-items:center; 
+      justify-content:center;">
+     <img id="lightbox-img" src="" style="max-width:90%; max-height:90%; border-radius:6px;">
+     </div>
+    
+    <script>
+      function openLightbox(src) {
+     document.getElementById('lightbox-img').src = src;
+     document.getElementById('lightbox').style.display = 'flex';
+     }
+    // Close when clicking anywhere outside the image
+    document.getElementById('lightbox').addEventListener('click', function() {
+     this.style.display = 'none';
+    });
+    </script>        
+    
+     </div>
       <div class="card">
         <h3>Storytelling and infographics</h3>
         <p>We combine narrative and design to help your audience understand and act on your findings.</p>
