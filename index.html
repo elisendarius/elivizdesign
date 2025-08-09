@@ -123,17 +123,28 @@
   <section id="services">
     <h2>Our Services</h2>
     <div class="services">
-      <div class="card">
-        <h3>Data Visualization</h3>
-        <p>From static charts to interactive dashboards, we make your data accessible and beautiful.</p>
+      <div class="cards-container">
+  
+        <div class="card">
+          <h3>Storytelling and Infographics</h3>
+          <p>We combine narrative and design to help your audience understand and act on your findings.</p>
+          <img src="images/red_project.png" alt="Storytelling example" onclick="openLightbox(this.src)">
+        </div>
+      
+        <div class="card">
+          <h3>Scientific Illustration</h3>
+          <p>Pedagogical diagrams and schematics tailored for publications, reports, and educational material.</p>
+          <img src="images/Poster_Methane_ICAR.png" alt="Infographic" onclick="openLightbox(this.src)">
+        </div>
+      
+        <div class="card">
+          <h3>Data Visualization</h3>
+          <p>Transforming raw numbers into clear, compelling charts and visuals for research and communication.</p>
+          <img src="images/data_vis.png" alt="Data visualization" onclick="openLightbox(this.src)">
+        </div>
+      
       </div>
-      <div class="card img">
-        <h3>Scientific Illustration</h3>
-        <p>Pedagogical diagrams and schematics tailored for publications, reports, and educational material.</p>
-        <img src="images/Poster_Methane_ICAR.png" 
-             alt="Example of an infographic for a Project overview"
-             onclick="openLightbox(this.src)">
-      </div>      
+      
       <!-- Lightbox -->
       <div id="lightbox" style="
         display:none; 
@@ -150,51 +161,15 @@
       </div>
       
       <script>
-        function openLightbox(src) {
-          document.getElementById('lightbox-img').src = src;
-          document.getElementById('lightbox').style.display = 'flex';
-        }
-        // Close when clicking anywhere outside the image
-        document.getElementById('lightbox').addEventListener('click', function() {
-          this.style.display = 'none';
-        });
-      </script>
-     </div>
-      <div class="card img">
-        <h3>Storytelling and infographics</h3>
-        <p>We combine narrative and design to help your audience understand and act on your findings.</p>
-      
-        <!-- Clickable image -->
-        <img src="images/red_project.png" 
-             alt="Example of an infographic for a Project overview"             
-             onclick="openLightbox(this.src)">
-      </div>
-      
-      <!-- Lightbox -->
-      <div id="lightbox" style="
-          display:none; 
-          position:fixed; 
-          z-index:1000; 
-          left:0; 
-          top:0; 
-          width:100%; 
-          height:100%; 
-          background:rgba(0,0,0,0.8); 
-          align-items:center; 
-          justify-content:center;">
-        <img id="lightbox-img" src="" style="max-width:90%; max-height:90%; border-radius:6px;">
-      </div>
-      <script>
-        function openLightbox(src) {
-          document.getElementById('lightbox-img').src = src;
-          document.getElementById('lightbox').style.display = 'flex';
-        }
-        
-        // Close when clicking anywhere outside the image
-        document.getElementById('lightbox').addEventListener('click', function() {
-          this.style.display = 'none';
-        });
-        </script>      
+      function openLightbox(src) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').style.display = 'flex';
+      }
+      document.getElementById('lightbox').addEventListener('click', function() {
+        this.style.display = 'none';
+      });
+      </script>  
+         
       </div>
     </div>
   </section>
