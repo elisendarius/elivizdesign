@@ -99,33 +99,26 @@
 
   /* Lightbox */
   #lightbox {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.8);
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  box-sizing: border-box;
-  cursor: zoom-out;
-}
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    animation: fadeIn 0.3s ease;
+  }
 
-#lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-  border-radius: 6px;
-  transition: transform 0.3s ease;
-  transform-origin: center center;
-  cursor: grab;
-}
-
-/* When lightbox is visible, scale the image up */
-#lightbox.show img {
-  transform: scale(1.2); /* zoom in 20% */
-}
+  #lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+    animation: zoomIn 0.3s ease;
+  }
 
   @keyframes fadeIn {
     from { opacity: 0; }
@@ -188,7 +181,7 @@
 ">
   <h2>Turning Science into Clear, Impactful Visuals</h2>
   <p>We transform complex data into pedagogical figures and interactive visualizations that tell a story and engage your audience.</p>
-  <img src="images/eli_run_linkedin3.png" alt="Visual Example" style="width: 60%; height: auto; display: block; margin: 1rem 0;">
+  <img src="images/eli_run_linkedin3.png" alt="Visual Example" style="display:block; max-width: 100%; height:auto; margin:1rem 0;">
   <a class="button" href="#contact">Work With Us</a>
 </section>
 
@@ -221,27 +214,18 @@
       </div>
       
       <script>
-function openLightbox(src) {
-  const lightbox = document.getElementById('lightbox');
-  const img = document.getElementById('lightbox-img');
-  
-  img.src = src;
-  lightbox.style.display = 'flex';
-  
-  // Add a class to trigger zoom
-  setTimeout(() => lightbox.classList.add('show'), 10);
-  
-  // Close only if clicked outside the image
-  lightbox.onclick = function(e) {
-    if (e.target === lightbox) {
-      lightbox.classList.remove('show');
-      setTimeout(() => {
-        lightbox.style.display = 'none';
-        img.src = '';
-      }, 300); // wait for zoom-out transition before hiding
-    }
-  };
-}
+        function openLightbox(src) {
+          const lightbox = document.getElementById('lightbox');
+          document.getElementById('lightbox-img').src = src;
+          lightbox.style.display = 'flex';
+      
+          // Close only if clicked outside the image
+          lightbox.onclick = function(e) {
+            if (e.target === lightbox) {
+              lightbox.style.display = 'none';
+            }
+          };
+        }
       </script>
          
       </div>
