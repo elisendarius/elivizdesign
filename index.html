@@ -87,9 +87,12 @@
   }
 
   @media (max-width: 800px) {
-    .card {
-      flex: 1 1 100%;
-    }
+  .cards-container {
+    flex-wrap: wrap; /* allow wrapping */
+  }
+  .card {
+    flex: 1 1 100%;   /* full width on small screens */
+   }
   }
 
   /* Lightbox */
