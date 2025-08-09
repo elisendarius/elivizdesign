@@ -221,18 +221,27 @@
       </div>
       
       <script>
-        function openLightbox(src) {
-          const lightbox = document.getElementById('lightbox');
-          document.getElementById('lightbox-img').src = src;
-          lightbox.style.display = 'flex';
-      
-          // Close only if clicked outside the image
-          lightbox.onclick = function(e) {
-            if (e.target === lightbox) {
-              lightbox.style.display = 'none';
-            }
-          };
-        }
+function openLightbox(src) {
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  
+  img.src = src;
+  lightbox.style.display = 'flex';
+  
+  // Add a class to trigger zoom
+  setTimeout(() => lightbox.classList.add('show'), 10);
+  
+  // Close only if clicked outside the image
+  lightbox.onclick = function(e) {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('show');
+      setTimeout(() => {
+        lightbox.style.display = 'none';
+        img.src = '';
+      }, 300); // wait for zoom-out transition before hiding
+    }
+  };
+}
       </script>
          
       </div>
