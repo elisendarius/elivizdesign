@@ -55,38 +55,60 @@
       margin-top: 2rem;
     }
     .cards-container {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap; /* allow wrapping on smaller screens */
-    }
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    flex: 1 1 32%;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-top: 1rem;
+    border-radius: 6px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
+
+  @media (max-width: 800px) {
     .card {
-      flex: 1 1 calc(33.333% - 1rem); /* 3 cards per row on large screens */
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-   }
-
-    .card img {
-      width: 100%;
-      max-height: 180px;
-      object-fit: contain;
-      background-color: #fff;
-      margin-top: 1rem;
-      border-radius: 6px;
-      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-      cursor: pointer;
+      flex: 1 1 100%;
     }
+  }
 
-    /* Responsive for mobile */
-    @media (max-width: 768px) {
-     .card {
-       flex: 1 1 100%; /* full width on small screens */
-      }
-    }
+  /* Lightbox */
+  #lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  #lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* ensures tall images scale down proportionally */
+    border-radius: 6px;
+  }
+
+   
    .card h3 {
       margin-top: 0;
       color: #006699;
@@ -133,9 +155,8 @@
     <h2>Our Services</h2>
     <div class="services">
       <div class="cards-container">
-  
         <div class="card">
-          <h3>Storytelling and Infographics</h3>
+          <h3>Storytelling with Data</h3>
           <p>We combine narrative and design to help your audience understand and act on your findings.</p>
           <img src="images/red_project.png" alt="Storytelling example" onclick="openLightbox(this.src)">
         </div>
@@ -143,40 +164,26 @@
         <div class="card">
           <h3>Scientific Illustration</h3>
           <p>Pedagogical diagrams and schematics tailored for publications, reports, and educational material.</p>
-          <img src="images/Poster_Methane_ICAR.png" alt="Infographic" onclick="openLightbox(this.src)">
+          <img src="images/Poster_Methane_ICAR.png" alt="Scientific illustration" onclick="openLightbox(this.src)">
         </div>
       
         <div class="card">
           <h3>Data Visualization</h3>
-          <p>Transforming raw numbers into clear, compelling charts and visuals for research and communication.</p>
-          <img src="images/bulls_ss.png" alt="Data visualization" onclick="openLightbox(this.src)">
+          <p>Interactive charts and figures that make complex analyses clear and engaging.</p>
+          <img src="images/data_viz.png" alt="Data visualization example" onclick="openLightbox(this.src)">
         </div>
-      
       </div>
       
       <!-- Lightbox -->
-      <div id="lightbox" style="
-        display:none; 
-        position:fixed; 
-        z-index:1000; 
-        left:0; 
-        top:0; 
-        width:100%; 
-        height:100%; 
-        background:rgba(0,0,0,0.8); 
-        align-items:center; 
-        justify-content:center;">
-        <img id="lightbox-img" src="" style="max-width:90%; max-height:90%; border-radius:6px;">
+      <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightbox-img" src="">
       </div>
       
       <script>
-      function openLightbox(src) {
-        document.getElementById('lightbox-img').src = src;
-        document.getElementById('lightbox').style.display = 'flex';
-      }
-      document.getElementById('lightbox').addEventListener('click', function() {
-        this.style.display = 'none';
-      });
+        function openLightbox(src) {
+          document.getElementById('lightbox-img').src = src;
+          document.getElementById('lightbox').style.display = 'flex';
+        }
       </script>  
          
       </div>
