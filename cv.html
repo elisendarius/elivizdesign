@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elisenda Rius-Vilarrasa — CV</title>
+  <meta name="description" content="Professional CV for Elisenda Rius-Vilarrasa." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Code+Pro:wght@400;500;600&display=swap');
+
+    :root {
+      --bg: #f4f5f7;
+      --surface: #ffffff;
+      --ink: #111111;
+      --ink-soft: #444444;
+      --line: #dddddd;
+      --accent: #0f172a;
+      --accent-soft: #334155;
+      --shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 17px;
+      background: var(--bg);
+      color: var(--ink);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    body.lang-sv {
+      --bg: #eeece8;
+    }
+
+    .lang-bar {
+      position: sticky;
+      top: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      justify-content: center;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+      background: color-mix(in srgb, var(--bg) 92%, white 8%);
+    }
+
+    .lang-controls {
+      width: min(1100px, 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.42rem 0.95rem;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover { background: var(--accent-soft); border-color: var(--accent-soft); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border-color: #a5b4c7;
+    }
+
+    .btn-secondary:hover { background: #eef2f7; }
+
+    .lang-switch {
+      display: flex;
+      border: 1px solid #c7ced8;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.42rem 0.85rem;
+      border: none;
+      background: transparent;
+      color: #526070;
+      cursor: pointer;
+    }
+
+    .lang-btn + .lang-btn { border-left: 1px solid #c7ced8; }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .page {
+      width: min(1100px, 100% - 2.5rem);
+      margin: 1.75rem auto 2.75rem;
+      background: var(--surface);
+      border: 1px solid #e6e9ef;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 3rem 3rem 3.75rem;
+    }
+
+    [data-lang] { display: none; }
+    body.lang-en [data-lang="en"],
+    body.lang-sv [data-lang="sv"] { display: revert; }
+
+    span[data-lang], a[data-lang] { display: none; }
+    body.lang-en span[data-lang="en"], body.lang-en a[data-lang="en"],
+    body.lang-sv span[data-lang="sv"], body.lang-sv a[data-lang="sv"] { display: inline; }
+
+    li[data-lang] { display: none; }
+    body.lang-en li[data-lang="en"],
+    body.lang-sv li[data-lang="sv"] { display: list-item; }
+
+    .cv-header {
+      padding-bottom: 2rem;
+      margin-bottom: 2.35rem;
+      border-bottom: 2px solid var(--ink);
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .cv-header-text { flex: 1; }
+
+    .cv-name {
+      font-size: 2.35rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      margin-bottom: 0.3rem;
+    }
+
+    .cv-title {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: #1f2937;
+      margin-bottom: 1.1rem;
+    }
+
+    .cv-contact {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.78rem;
+      line-height: 1.8;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1.6rem;
+      color: var(--ink-soft);
+    }
+
+    .cv-contact a {
+      color: #1f2937;
+      text-decoration: none;
+      border-bottom: 1px solid #9ca3af;
+    }
+
+    .cv-contact a:hover { border-color: #111827; color: #111827; }
+
+    .cv-photo {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 1px solid #d8dde6;
+      flex-shrink: 0;
+    }
+
+    .cv-section {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 0 2.7rem;
+      padding: 1.75rem 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .cv-section:first-of-type { border-top: none; padding-top: 0; }
+
+    .cv-label {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #5b6573;
+      padding-top: 0.15rem;
+    }
+
+    .cv-body p { margin-bottom: 0.8rem; }
+    .cv-body p:last-child { margin-bottom: 0; }
+
+    .comp-group { margin-bottom: 1.25rem; }
+    .comp-group:last-child { margin-bottom: 0; }
+
+    .comp-heading,
+    .sub-label {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.67rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #344154;
+      margin-bottom: 0.5rem;
+    }
+
+    .comp-items,
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .comp-items li,
+    .bullet-list li {
+      font-size: 0.96rem;
+      line-height: 1.6;
+      margin-bottom: 0.2rem;
+      padding-left: 1.1rem;
+      position: relative;
+    }
+
+    .comp-items li::before,
+    .bullet-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #6b7280;
+      font-size: 0.9rem;
+      top: 0.2rem;
+    }
+
+    .role-meta,
+    .edu-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .role-title { font-size: 1.05rem; font-weight: 600; }
+    .role-dates,
+    .edu-yr {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.7rem;
+      color: #596274;
+      white-space: nowrap;
+    }
+
+    .role-org { font-size: 0.9rem; color: #3a4352; font-style: italic; margin-bottom: 0.7rem; }
+    .role-summary { font-size: 0.97rem; margin-bottom: 1rem; }
+    .sub { margin-bottom: 0.85rem; }
+
+    .edu-row {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #edf0f4;
+    }
+
+    .edu-row:last-child { border-bottom: none; }
+    .edu-deg { font-size: 1rem; }
+    .edu-inst { font-size: 0.85rem; color: #3a4352; font-style: italic; }
+
+    .lang-table { width: 100%; border-collapse: collapse; }
+    .lang-table tr { border-bottom: 1px solid var(--line); }
+    .lang-table tr:last-child { border-bottom: none; }
+    .lang-table td { padding: 0.45rem 0; font-size: 0.95rem; }
+    .lang-table td:last-child {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: right;
+      color: #5b6573;
+    }
+
+    .cv-footer {
+      margin-top: 2.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 700px) {
+      .page { width: min(1100px, 100% - 1.25rem); padding: 2rem 1.2rem 2.6rem; }
+      .cv-header { flex-direction: column-reverse; gap: 1rem; }
+      .cv-photo { width: 88px; height: 88px; }
+      .cv-name { font-size: 1.8rem; }
+      .cv-section { grid-template-columns: 1fr; gap: 0.45rem; }
+      .role-meta,
+      .edu-row { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+      .lang-bar { padding-inline: 0.75rem; }
+    }
+
+    @media print {
+      @page { size: A4; margin: 13mm; }
+      html, body { background: #fff !important; }
+      .lang-bar { display: none; }
+      .page {
+        width: 100%;
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+      }
+      .cv-section,
+      .role,
+      .sub,
+      .edu-row { break-inside: avoid; }
+      a { color: inherit; text-decoration: none; border-bottom: none !important; }
+    }
+  </style>
+</head>
+<body class="lang-en">
+  <div class="lang-bar" aria-label="CV controls">
+    <div class="lang-controls">
+      <div class="button-row">
+        <button class="btn btn-primary" onclick="window.print()" aria-label="Download PDF">↓ Download PDF</button>
+        <a class="btn btn-secondary" href="cv.html" download="Elisenda-Rius-Vilarrasa-CV.html">Download HTML</a>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language switcher">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-sv" onclick="setLang('sv')">SV</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="page">
+    <header class="cv-header">
+      <div class="cv-header-text">
+        <h1 class="cv-name">Elisenda Rius-Vilarrasa</h1>
+        <div class="cv-title">
+          <span data-lang="en">Principal Geneticist · Research Coordinator</span>
+          <span data-lang="sv">Huvudgenetiker · Forskningssamordnare</span>
+        </div>
+        <div class="cv-contact">
+          <span>Uppsala, Sweden</span>
+          <span>+46 76 103 48 01</span>
+          <a href="mailto:elivizdesign@gmail.com">elivizdesign@gmail.com</a>
+          <a href="https://github.com/elisendarius" target="_blank" rel="noopener noreferrer">github.com/elisendarius</a>
+          <a href="https://www.linkedin.com/in/elisenda-rius-vilarrasa-35a38726/" target="_blank" rel="noopener noreferrer">linkedin.com/in/elisenda-rius-vilarrasa</a>
+        </div>
+      </div>
+      <img class="cv-photo" src="images/eli.png" alt="Elisenda Rius-Vilarrasa" />
+    </header>
+
+    <section class="cv-section">
+      <div class="cv-label"><span data-lang="en">Profile</span><span data-lang="sv">Om mig</span></div>
+      <div class="cv-body">
+        <div data-lang="en">
+          <p>I lead and coordinate research collaborations across organisations and countries, translating science into applied practice. I ensure work is carried out in line with project goals, timelines and budgets — and that activities are coordinated to create genuine synergies between partners.</p>
+          <p>As senior geneticist I provide scientific and methodological support, contribute strategic input to management decisions, and am responsible for technical development and quality assurance within the genetics group. I am a committed and curious person who, through many years of professional life in Sweden, has built strong personal and professional roots here.</p>
+        </div>
+        <div data-lang="sv">
+          <p>Arbetar med utvecklingsprojekt för praktisk implementering där forskning omsätts i tillämpning. Leder och samordnar forskningssamarbeten mellan organisationer och länder och säkerställer att arbetet genomförs i linje med projektens mål, tidplan och budget samt att aktiviteter samordnas så att de kompletterar varandra och skapar synergier mellan organisationer.</p>
+          <p>Som senior genetiker fungerar jag som stöd i vetenskapliga och metodologiska frågor, bidrar med strategiska underlag till ledningsbeslut och ansvarar för teknisk och kompetensutveckling inom genetikergruppen. Jag är en engagerad och nyfiken person som genom många år av yrkesverksamhet i Sverige har byggt upp en stabil personlig och professionell förankring här.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv-section">
+      <div class="cv-label"><span data-lang="en">Competencies</span><span data-lang="sv">Kompetenser</span></div>
+      <div class="cv-body">
+        <div data-lang="en">
+          <div class="comp-group">
+            <div class="comp-heading">Research coordination &amp; strategy</div>
+            <ul class="comp-items">
+              <li data-lang="en">Scientific leadership and methodological responsibility</li>
+              <li data-lang="en">Research strategy and R&amp;D prioritisation</li>
+              <li data-lang="en">Initiation and development of research partnerships</li>
+              <li data-lang="en">Scientific communication and decision support</li>
+              <li data-lang="en">Multi-project planning across countries</li>
+              <li data-lang="en">National and international research coordination</li>
+            </ul>
+          </div>
+          <div class="comp-group">
+            <div class="comp-heading">Data, analysis &amp; capacity development</div>
+            <ul class="comp-items">
+              <li data-lang="en">Quality assurance of analyses and results</li>
+              <li data-lang="en">Synthesis of complex scientific information</li>
+              <li data-lang="en">Structured work with parallel and dependent workflows</li>
+              <li data-lang="en">External examiner and peer review of publications</li>
+              <li data-lang="en">Mentoring and competency development</li>
+              <li data-lang="en">Scientific design and data visualisation</li>
+            </ul>
+          </div>
+        </div>
+        <div data-lang="sv">
+          <div class="comp-group">
+            <div class="comp-heading">Forskningssamordning och strategiskt arbete</div>
+            <ul class="comp-items">
+              <li data-lang="sv">Vetenskapligt ledarskap och metodologiskt ansvar</li>
+              <li data-lang="sv">Forskningsstrategi, strategiska underlag och prioritering av FoU-insatser</li>
+              <li data-lang="sv">Initiering och utveckling av nya forskningssamarbeten och partnerskap</li>
+              <li data-lang="sv">Vetenskaplig kommunikation och beslutsstöd</li>
+              <li data-lang="sv">Prioritering och planering av vetenskapligt arbete över flera projekt och länder</li>
+              <li data-lang="sv">Samordning av forskningsaktiviteter i nationell och internationell samverkan</li>
+            </ul>
+          </div>
+          <div class="comp-group">
+            <div class="comp-heading">Dataanalys, samordning och kapacitetsutveckling</div>
+            <ul class="comp-items">
+              <li data-lang="sv">Uppföljning, granskning och kvalitetssäkring av analyser och resultat</li>
+              <li data-lang="sv">Bedömning och syntes av komplex vetenskaplig information för olika målgrupper</li>
+              <li data-lang="sv">Strukturerat arbete i miljöer med parallella och beroende arbetsflöden</li>
+              <li data-lang="sv">Extern sakkunnig och examinator i forskarutbildningssammanhang samt peer review</li>
+              <li data-lang="sv">Mentorskap och kompetensutveckling inom genetikergruppen</li>
+              <li data-lang="sv">Vetenskaplig design och visualisering med fokus på pedagogisk förmedling</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv-section">
+      <div class="cv-label"><span data-lang="en">Experience</span><span data-lang="sv">Erfarenhet</span></div>
+      <div class="cv-body">
+        <article class="role">
+          <div class="role-meta">
+            <span class="role-title"><span data-lang="en">Principal Geneticist — Scientific Lead</span><span data-lang="sv">Huvudgenetiker — Vetenskaplig ledare</span></span>
+            <span class="role-dates">2014 – <span data-lang="en">present</span><span data-lang="sv">pågående</span></span>
+          </div>
+          <div class="role-org">Växa Sverige</div>
+          <p class="role-summary"><span data-lang="en">Research coordination, prioritisation and quality assurance in national and international collaboration. Functional scientific leadership covering methodology, quality and prioritisation — without line management or HR responsibilities.</span><span data-lang="sv">Samordning, prioritering och kvalitetssäkring av forsknings- och analysverksamhet i nationell och internationell samverkan. Funktionellt vetenskapligt ledarskap med ansvar för metodik, kvalitet och prioritering — utan personalansvar, HR-frågor eller linjeledning.</span></p>
+
+          <div class="sub">
+            <div class="sub-label"><span data-lang="en">Research coordination &amp; governance</span><span data-lang="sv">Forskningssamordning och styrning</span></div>
+            <ul class="bullet-list">
+              <li data-lang="en">Coordinate research activities between organisations and countries; ensure delivery against goals, timelines and budget.</li>
+              <li data-lang="en">Plan and prioritise scientific work across multiple parallel projects with interdependencies.</li>
+              <li data-lang="en">Initiate and develop research collaborations with universities, institutes and international partners.</li>
+              <li data-lang="sv">Samordnar forskningsaktiviteter mellan organisationer och länder; säkerställer genomförande enligt projektmål, tidplan och budget.</li>
+              <li data-lang="sv">Planerar och prioriterar vetenskapliga insatser över flera parallella projekt med ömsesidiga beroenden.</li>
+              <li data-lang="sv">Initierar och utvecklar forskningssamarbeten med universitet, forskningsinstitut och internationella partners.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="cv-section">
+      <div class="cv-label"><span data-lang="en">Education</span><span data-lang="sv">Utbildning</span></div>
+      <div class="cv-body">
+        <div class="edu-row">
+          <div>
+            <div class="edu-deg"><span data-lang="en">PhD, Quantitative Genetics</span><span data-lang="sv">Doktorsexamen, kvantitativ genetik</span></div>
+            <div class="edu-inst">University of Edinburgh</div>
+          </div>
+          <div class="edu-yr">2005–2009</div>
+        </div>
+        <div class="edu-row">
+          <div>
+            <div class="edu-deg"><span data-lang="en">MSc, Bioinformatics</span><span data-lang="sv">Masterexamen, bioinformatik</span></div>
+          </div>
+          <div class="edu-yr">2004–2005</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cv-section">
+      <div class="cv-label"><span data-lang="en">Languages</span><span data-lang="sv">Språk</span></div>
+      <div class="cv-body">
+        <table class="lang-table">
+          <tr><td><span data-lang="en">Catalan</span><span data-lang="sv">Katalanska</span></td><td><span data-lang="en">Native</span><span data-lang="sv">Modersmål</span></td></tr>
+          <tr><td><span data-lang="en">Spanish</span><span data-lang="sv">Spanska</span></td><td><span data-lang="en">Native</span><span data-lang="sv">Modersmål</span></td></tr>
+          <tr><td><span data-lang="en">English</span><span data-lang="sv">Engelska</span></td><td><span data-lang="en">Fluent</span><span data-lang="sv">Flytande</span></td></tr>
+          <tr><td><span data-lang="en">Swedish</span><span data-lang="sv">Svenska</span></td><td><span data-lang="en">Professional</span><span data-lang="sv">Yrkesmässig</span></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="cv-section">
+      <div class="cv-label"><span data-lang="en">References</span><span data-lang="sv">Referenser</span></div>
+      <div class="cv-body">
+        <p style="font-size:0.96rem; color:#5b6573; font-style:italic;"><span data-lang="en">Available on request.</span><span data-lang="sv">Lämnas på begäran.</span></p>
+      </div>
+    </section>
+
+    <div class="cv-footer">Elisenda Rius-Vilarrasa · Uppsala · 2026</div>
+  </main>
+
+  <script>
+    function setLang(lang) {
+      document.body.classList.remove('lang-en', 'lang-sv');
+      document.body.classList.add(`lang-${lang}`);
+      document.documentElement.lang = lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-sv').classList.toggle('active', lang === 'sv');
+      localStorage.setItem('cv-language', lang);
+    }
+
+    const savedLang = localStorage.getItem('cv-language');
+    if (savedLang === 'en' || savedLang === 'sv') {
+      setLang(savedLang);
+    }
+  </script>
+</body>
+</html>
