@@ -182,8 +182,8 @@ nav a:hover {
   font-size: 1.1rem;
   color: var(--text-light);
   line-height: 1.7;
-  max-width: 560px;
-  margin: 0 auto 2rem;
+  max-width: 580px;
+  margin-bottom: 1.2rem;
 }
 
 .cta-row {
