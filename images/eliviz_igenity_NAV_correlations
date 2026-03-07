@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eliViz Design – Science Visualization</title>
+  <meta name="description" content="Transforming science into clear, pedagogical visuals and data stories.">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --grey: #f0f1f3;
+      --grey-mid: #d8dce2;
+      --grey-dark: #6b7280;
+      --blue: #ddeef7;
+      --blue-mid: #a8d0e6;
+      --blue-deep: #3a7ea8;
+      --green: #d9efe4;
+      --green-mid: #a3d4bc;
+      --green-deep: #3a8a65;
+      --pink: #fce8ec;
+      --pink-mid: #f5bfca;
+      --pink-deep: #c2526e;
+      --text: #2a2d35;
+      --text-light: #5a5f6e;
+      --white: #ffffff;
+      --radius: 16px;
+      --radius-sm: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f7f8fa;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── Header ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 248, 250, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--grey-mid);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+    }
+
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--blue-deep); }
+
+    nav a {
+      color: var(--text-light);
+      margin-left: 2rem;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--blue-deep); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 82vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Soft blobs */
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .hero::before {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, var(--blue) 0%, transparent 70%);
+      top: -100px; left: -80px;
+    }
+    .hero::after {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, var(--pink) 0%, transparent 70%);
+      bottom: -60px; right: -80px;
+    }
+
+    .blob-green {
+      position: absolute;
+      width: 350px; height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--green) 0%, transparent 70%);
+      filter: blur(70px);
+      opacity: 0.5;
+      bottom: 30px; left: 35%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+    }
+
+    .hero-pill {
+      display: inline-block;
+      background: var(--blue);
+      color: var(--blue-deep);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--blue-deep);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--blue-deep);
+      color: white;
+      padding: 0.85rem 2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 18px rgba(58,126,168,0.25);
+    }
+    .btn-primary:hover { background: #2e6a91; transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-block;
+      border: 1.5px solid var(--grey-mid);
+      color: var(--text-light);
+      padding: 0.85rem 2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--blue-deep); color: var(--blue-deep); }
+
+    /* ── Divider ── */
+    .section-divider {
+      text-align: center;
+      padding: 0.5rem 0 0.5rem;
+      color: var(--grey-mid);
+      font-size: 1.4rem;
+      letter-spacing: 6px;
+    }
+
+    /* ── Services ── */
+    #services {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 4rem 2rem 5rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--text);
+      margin-bottom: 2.5rem;
+      line-height: 1.2;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.4rem 1.2rem;
+      border: 1px solid var(--grey-mid);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-3px); }
+
+    /* Accent top bar per card */
+    .card:nth-child(1)::before { background: var(--blue-mid); }
+    .card:nth-child(2)::before { background: var(--green-mid); }
+    .card:nth-child(3)::before { background: var(--pink-mid); }
+    .card:nth-child(4)::before { background: var(--grey-mid); }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .card-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .card:nth-child(1) .card-icon { background: var(--blue); }
+    .card:nth-child(2) .card-icon { background: var(--green); }
+    .card:nth-child(3) .card-icon { background: var(--pink); }
+    .card:nth-child(4) .card-icon { background: var(--grey); }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      background: var(--grey);
+      margin-top: auto;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .card img:hover { transform: scale(1.03); }
+
+    /* ── Contact ── */
+    #contact {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 2rem 5rem;
+    }
+
+    .contact-box {
+      background: var(--white);
+      border: 1px solid var(--grey-mid);
+      border-radius: var(--radius);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-box h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.9rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .contact-box p { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; }
+    .contact-box a { color: var(--blue-deep); }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      min-width: 200px;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--grey);
+      border: 1px solid var(--grey-mid);
+      padding: 0.7rem 1.2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .contact-link:hover { background: var(--blue); border-color: var(--blue-mid); color: var(--blue-deep); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.8rem 1rem;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      border-top: 1px solid var(--grey-mid);
+    }
+
+    /* ── Lightbox ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      inset: 0;
+      background: rgba(20,22,28,0.88);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      animation: fadeIn 0.25s ease;
+    }
+    #lightbox img {
+      max-width: 92%;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: var(--radius);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      animation: zoomIn 0.25s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes zoomIn { from { transform: scale(0.94); } to { transform: scale(1); } }
+
+    /* ── Animations ── */
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-inner { animation: floatUp 0.7s ease both; width: 100%; max-width: 1000px; }
+
+    .hero-layout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-text {
+      flex: 1 1 380px;
+      text-align: left;
+    }
+
+    .hero-text .cta-row { justify-content: flex-start; }
+
+    .hero-portrait {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: floatUp 0.9s ease both;
+    }
+
+    .portrait-ring {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-mid) 0%, var(--pink-mid) 50%, var(--green-mid) 100%);
+      padding: 4px;
+      box-shadow: 0 8px 40px rgba(58,126,168,0.15);
+    }
+
+    .portrait-ring img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 50%;
+      background: var(--grey);
+      display: block;
+    }
+
+    @media (max-width: 700px) {
+      .hero-layout { flex-direction: column-reverse; gap: 2rem; }
+      .hero-text { text-align: center; }
+      .hero-text .cta-row { justify-content: center; }
+      .portrait-ring { width: 200px; height: 200px; }
+    }
+    .card { animation: floatUp 0.5s ease both; }
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.12s; }
+    .card:nth-child(3) { animation-delay: 0.19s; }
+    .card:nth-child(4) { animation-delay: 0.26s; }
+
+    @media (max-width: 640px) {
+      header { padding: 1rem 1.5rem; }
+      .contact-box { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">eli<span>Viz</span> Design</div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="blob-green"></div>
+    <div class="hero-inner">
+      <div class="hero-layout">
+        <div class="hero-text">
+          <div class="hero-pill">Science × Design</div>
+          <h1>Turning Science into<br><em>Clear, Impactful Visuals</em></h1>
+          <p>We transform complex data into pedagogical figures and interactive visualizations that tell a story and engage your audience.</p>
+          <div class="cta-row">
+            <a class="btn-primary" href="#contact">Let's work together</a>
+            <a class="btn-outline" href="#services">See the work</a>
+          </div>
+        </div>
+        <div class="hero-portrait">
+          <div class="portrait-ring">
+            <img src="eli.png" alt="Eli – eliViz Design">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="section-label">What we do</div>
+    <h2 class="section-title">Our Services</h2>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Storytelling with Data</h3>
+        <p>We combine narrative and design to help your audience understand and act on your findings.</p>
+        <img src="images/red_project.png" alt="Storytelling example" onclick="openLightbox(this.src)">
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <h3>Scientific Illustration</h3>
+        <p>Pedagogical diagrams and schematics tailored for publications, reports, and educational material.</p>
+        <img src="images/Poster_Methane_ICAR.png" alt="Scientific illustration" onclick="openLightbox(this.src)">
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>Data Visualization</h3>
+        <p>Interactive charts and figures that make complex analyses clear and engaging.</p>
+        <img src="images/bulls_ss.png" alt="Data visualization example" onclick="openLightbox(this.src)">
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🧬</div>
+        <h3>Animal Breeding &amp; Genetics</h3>
+        <p>Specialized visuals for breeding programs, genomics, and genetic analyses.</p>
+        <img src="images/work_in_progress.png" alt="Animal breeding example" onclick="openLightbox(this.src)">
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-box">
+      <div>
+        <h2>Let's Connect</h2>
+        <p>Interested in working together or want to see more?<br>Reach out — I'd love to hear about your project.</p>
+      </div>
+      <div class="contact-links">
+        <a class="contact-link" href="/cdn-cgi/l/email-protection#0f6a63664f6a63667966756b6a7c666861216c6062">
+          ✉️ <span class="__cf_email__" data-cfemail="b2d7dedbf2d7dedbe4dbc8f6d7c1dbd5dc9cd1dddf">[email&#160;protected]</span>
+        </a>
+        <a class="contact-link" href="https://bio.site/elisendarius" target="_blank">
+          🌐 View my portfolio
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>&copy; 2025 eliViz Design. All rights reserved.</footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightbox-img').src = src;
+      lb.style.display = 'flex';
+      lb.onc
