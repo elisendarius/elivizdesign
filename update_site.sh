@@ -1,9 +1,14 @@
 #!/bin/bash
-# Simple script to stage all changes, commit, and push to GitHub
+# Stage all changes, commit, and push to the current branch
 
-# You can customize your commit message here:
+# Detect current branch
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Commit message
 COMMIT_MSG="Update website $(date +"%Y-%m-%d %H:%M:%S")"
 
 git add .
 git commit -m "$COMMIT_MSG"
-git push origin main
+
+# Push to the same branch
+git push origin "$BRANCH"
