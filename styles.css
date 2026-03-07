@@ -130,10 +130,9 @@ nav a:hover {
 .hero-inner {
   position: relative;
   z-index: 2;
-  max-width: 720px;
-  animation: floatUp 0.7s ease both;
   width: 100%;
   max-width: 1000px;
+  animation: floatUp 0.7s ease both;
 }
 
 .hero-layout {
