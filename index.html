@@ -547,3 +547,248 @@
       document.getElementById('lightbox-img').src = src;
       lb.style.display = 'flex';
       lb.onc
+<<<<<<< HEAD
+=======
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eliViz Design – Science Visualization</title>
+<meta name="description" content="Transforming science into clear, pedagogical visuals and data stories.">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--grey:#f0f1f3;
+--grey-mid:#d8dce2;
+--grey-dark:#6b7280;
+--blue:#ddeef7;
+--blue-mid:#a8d0e6;
+--blue-deep:#3a7ea8;
+--green:#d9efe4;
+--green-mid:#a3d4bc;
+--green-deep:#3a8a65;
+--pink:#fce8ec;
+--pink-mid:#f5bfca;
+--pink-deep:#c2526e;
+--text:#2a2d35;
+--text-light:#5a5f6e;
+--white:#ffffff;
+--radius:16px;
+--radius-sm:8px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f7f8fa;color:var(--text);overflow-x:hidden}
+html{scroll-behavior:smooth}
+
+/* HEADER */
+header{
+position:sticky;top:0;z-index:100;
+background:rgba(247,248,250,.85);
+backdrop-filter:blur(12px);
+border-bottom:1px solid var(--grey-mid);
+display:flex;align-items:center;justify-content:space-between;
+padding:1rem 3rem;
+}
+.logo{font-family:'DM Serif Display',serif;font-size:1.5rem}
+.logo span{color:var(--blue-deep)}
+nav a{
+color:var(--text-light);
+margin-left:2rem;
+text-decoration:none;
+font-size:.9rem;
+font-weight:500;
+}
+nav a:hover{color:var(--blue-deep)}
+
+/* HERO */
+.hero{min-height:82vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem 4rem;position:relative;overflow:hidden}
+.hero::before,.hero::after{content:'';position:absolute;border-radius:50%;filter:blur(80px);opacity:.55}
+.hero::before{width:520px;height:520px;background:radial-gradient(circle,var(--blue)0%,transparent70%);top:-100px;left:-80px}
+.hero::after{width:420px;height:420px;background:radial-gradient(circle,var(--pink)0%,transparent70%);bottom:-60px;right:-80px}
+.blob-green{position:absolute;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,var(--green)0%,transparent70%);filter:blur(70px);opacity:.5;bottom:30px;left:35%}
+
+.hero-layout{display:flex;align-items:center;justify-content:center;gap:4rem;flex-wrap:wrap}
+.hero-text{flex:1 1 380px;text-align:left}
+.hero-pill{display:inline-block;background:var(--blue);color:var(--blue-deep);font-size:.78rem;font-weight:600;padding:.35rem 1rem;border-radius:999px;margin-bottom:1.5rem}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,6vw,4rem);line-height:1.15;margin-bottom:1.2rem}
+.hero h1 em{color:var(--blue-deep)}
+.hero p{font-size:1.1rem;color:var(--text-light);line-height:1.7;margin-bottom:2rem}
+.cta-row{display:flex;gap:1rem}
+.btn-primary{background:var(--blue-deep);color:white;padding:.85rem 2rem;border-radius:999px;text-decoration:none;font-weight:600}
+.btn-outline{border:1.5px solid var(--grey-mid);color:var(--text-light);padding:.85rem 2rem;border-radius:999px;text-decoration:none}
+
+.portrait-ring{width:280px;height:280px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),var(--pink-mid),var(--green-mid));padding:4px}
+.portrait-ring img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+/* SERVICES */
+#services{max-width:1080px;margin:0 auto;padding:4rem 2rem 5rem}
+.section-label{font-size:.75rem;font-weight:600;text-transform:uppercase;color:var(--text-light)}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:2.5rem}
+
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.4rem}
+.card{
+background:var(--white);
+border-radius:var(--radius);
+padding:1.4rem;
+border:1px solid var(--grey-mid);
+display:flex;
+flex-direction:column;
+}
+.card img{
+width:100%;
+height:160px;
+object-fit:contain;
+border-radius:var(--radius-sm);
+background:var(--grey);
+margin-top:auto;
+cursor:zoom-in;
+}
+
+/* CONTACT */
+#contact{max-width:1080px;margin:0 auto;padding:2rem 2rem 5rem}
+.contact-box{
+background:var(--white);
+border:1px solid var(--grey-mid);
+border-radius:var(--radius);
+padding:3rem;
+display:flex;
+justify-content:space-between;
+gap:2rem;
+flex-wrap:wrap;
+}
+
+/* FOOTER */
+footer{text-align:center;padding:1.8rem 1rem;font-size:.82rem;color:var(--text-light);border-top:1px solid var(--grey-mid)}
+
+/* LIGHTBOX */
+#lightbox{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(20,22,28,.88);
+backdrop-filter:blur(6px);
+align-items:center;
+justify-content:center;
+padding:2rem;
+z-index:999;
+}
+#lightbox img{
+max-width:min(1200px,92vw);
+max-height:88vh;
+object-fit:contain;
+border-radius:var(--radius);
+box-shadow:0 24px 80px rgba(0,0,0,.5);
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="logo">eli<span>Viz</span> Design</div>
+<nav>
+<a href="#services">Services</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<section class="hero">
+<div class="blob-green"></div>
+<div class="hero-layout">
+<div class="hero-text">
+<div class="hero-pill">Science × Design</div>
+<h1>Turning Science into<br><em>Clear, Impactful Visuals</em></h1>
+<p>We transform complex data into pedagogical figures and interactive visualizations.</p>
+<div class="cta-row">
+<a class="btn-primary" href="#contact">Let's work together</a>
+<a class="btn-outline" href="#services">See the work</a>
+</div>
+</div>
+<div class="portrait-ring">
+<img src="images/eli.png" alt="Eli portrait">
+</div>
+</div>
+</section>
+
+<section id="services">
+<div class="section-label">What we do</div>
+<h2 class="section-title">Our Services</h2>
+
+<div class="cards-grid">
+<div class="card">
+<h3>Storytelling with Data</h3>
+<p>Narrative-driven data communication.</p>
+<img src="images/red_project.png" alt="">
+</div>
+
+<div class="card">
+<h3>Scientific Illustration</h3>
+<p>Pedagogical diagrams and schematics.</p>
+<img src="images/Poster_Methane_ICAR.png" alt="">
+</div>
+
+<div class="card">
+<h3>Data Visualization</h3>
+<p>Interactive charts and visual analytics.</p>
+<img src="images/bulls_ss.png" alt="">
+</div>
+
+<div class="card">
+<h3>Animal Breeding & Genetics</h3>
+<p>Specialized genetic visualizations.</p>
+<img src="images/work_in_progress.png" alt="">
+</div>
+</div>
+</section>
+
+<section id="contact">
+<div class="contact-box">
+<div>
+<h2>Let's Connect</h2>
+<p>Reach out — I'd love to hear about your project.</p>
+</div>
+</div>
+</section>
+
+<footer>© 2026 eliViz Design</footer>
+
+<div id="lightbox">
+<img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+const lightbox=document.getElementById('lightbox')
+const lightboxImg=document.getElementById('lightbox-img')
+
+document.querySelectorAll('.card img').forEach(img=>{
+img.addEventListener('click',()=>{
+lightboxImg.src=img.src
+lightbox.style.display='flex'
+document.body.style.overflow='hidden'
+})
+})
+
+function closeLightbox(){
+lightbox.style.display='none'
+lightboxImg.src=''
+document.body.style.overflow=''
+}
+
+lightbox.addEventListener('click',e=>{
+if(e.target===lightbox)closeLightbox()
+})
+
+document.addEventListener('keydown',e=>{
+if(e.key==='Escape')closeLightbox()
+})
+</script>
+
+</body>
+</html>
+>>>>>>> working01
