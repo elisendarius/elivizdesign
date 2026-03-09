@@ -62,6 +62,37 @@ header {
   color: var(--blue-deep);
 }
 
+.logo-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.home-icon-link {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  border: 1px solid var(--grey-mid);
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.home-icon-link:hover {
+  color: var(--blue-deep);
+  border-color: var(--blue-mid);
+  background: var(--blue);
+}
+
+.home-icon-link svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
 nav a {
   color: var(--text-light);
   margin-left: 2rem;
@@ -78,12 +109,12 @@ nav a:hover {
 
 /* Hero */
 .hero {
-  min-height: 82vh;
+  min-height: 68vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 5rem 2rem 4rem;
+  padding: 3.5rem 2rem 1.5rem;
   position: relative;
   overflow: hidden;
 }
@@ -131,7 +162,7 @@ nav a:hover {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1240px;
   animation: floatUp 0.7s ease both;
 }
 
@@ -257,9 +288,9 @@ nav a:hover {
 
 /* Services */
 #services {
-  max-width: 1080px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 4rem 2rem 5rem;
+  padding: 1.5rem 2rem 4rem;
 }
 
 .section-label {
@@ -281,7 +312,7 @@ nav a:hover {
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.4rem;
 }
 
@@ -406,11 +437,16 @@ nav a:hover {
   transform: scale(1.03);
 }
 
+.card-image-link {
+  display: block;
+  margin-top: auto;
+}
+
 /* Contact */
 #contact {
-  max-width: 1080px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 2rem 2rem 5rem;
+  padding: 1.5rem 2rem 4.5rem;
 }
 
 .contact-box {
@@ -494,13 +530,108 @@ footer {
 }
 
 .lightbox img {
-  max-width: 92%;
-  max-height: 88vh;
+  max-width: 98vw;
+  max-height: 96vh;
   object-fit: contain;
   border-radius: var(--radius);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
   animation: zoomIn 0.25s ease;
   cursor: default;
+}
+
+/* Collection page */
+.collection-main {
+  padding-bottom: 4rem;
+}
+
+.collection-shell {
+  width: min(1320px, calc(100% - 4rem));
+  margin: 0 auto;
+}
+
+.collection-banner {
+  margin-top: 1.2rem;
+}
+
+.collection-banner img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  object-position: center 35%;
+  border-radius: var(--radius);
+  border: 1px solid var(--grey-mid);
+  display: block;
+}
+
+.collection-hero {
+  min-height: 48vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3.5rem 0 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.collection-header {
+  text-align: left;
+  max-width: 940px;
+}
+
+.collection-header .cta-row {
+  justify-content: flex-start;
+}
+
+.collection-header p {
+  max-width: 760px;
+}
+
+.collection-section {
+  padding: 2rem 0 1rem;
+}
+
+.collection-intro {
+  padding-left: 1rem;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.2rem;
+}
+
+.collection-card {
+  background: var(--white);
+  border: 1px solid var(--grey-mid);
+  border-radius: var(--radius);
+  padding: 1rem;
+  animation: floatUp 0.5s ease both;
+}
+
+.collection-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  background: var(--grey);
+  border-radius: var(--radius-sm);
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+}
+
+.collection-card img:hover {
+  transform: scale(1.02);
+}
+
+.collection-card figcaption {
+  margin-top: 0.8rem;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.collection-footer-actions {
+  margin-top: 2rem;
+  padding-left: 1rem;
 }
 
 /* Animations */
@@ -543,6 +674,23 @@ footer {
   .portrait-ring {
     width: 200px;
     height: 200px;
+  }
+
+  .collection-shell {
+    width: calc(100% - 2rem);
+  }
+
+  .collection-banner img {
+    max-height: 230px;
+  }
+
+  .collection-hero {
+    min-height: auto;
+    padding-top: 2.5rem;
+  }
+
+  .collection-intro {
+    padding-left: 0;
   }
 }
 
