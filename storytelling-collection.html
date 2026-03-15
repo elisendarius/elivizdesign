@@ -3,77 +3,383 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Storytelling Visuals - eliViz Design</title>
+  <title>Storytelling Visuals – eliViz Design</title>
   <meta name="description" content="Collection of storytelling with data visuals by eliViz Design.">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07101e;
+      --bg-mid:    #0d1c30;
+      --bg-card:   #0f2038;
+      --teal:      #12c5b0;
+      --teal-dim:  rgba(18,197,176,.15);
+      --teal-glow: rgba(18,197,176,.08);
+      --green:     #4eca82;
+      --amber:     #e8a830;
+      --blue:      #3d8ef5;
+      --white:     #f0f7ff;
+      --muted:     rgba(180,210,240,.5);
+      --border:    rgba(18,197,176,.12);
+      --border-h:  rgba(18,197,176,.3);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── CANVAS BACKGROUND ── */
+    #dna-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 1;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3.5rem; height: 64px;
+      background: rgba(7,16,30,.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-group {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem; font-weight: 600;
+      letter-spacing: .04em; color: var(--white);
+    }
+    .logo span { color: var(--teal); }
+    .logo sup {
+      font-size: .55rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--muted);
+      vertical-align: super; margin-left: 3px;
+    }
+    .home-icon-link {
+      display: flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--muted);
+      transition: color .2s, border-color .2s;
+    }
+    .home-icon-link:hover { color: var(--teal); border-color: var(--border-h); }
+    .home-icon-link svg {
+      width: 15px; height: 15px;
+      fill: currentColor;
+    }
+    nav { display: flex; gap: 2.5rem; }
+    nav a {
+      font-size: .8rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: color .2s;
+    }
+    nav a:hover { color: var(--teal); }
+
+    /* ── BANNER ── */
+    .collection-banner {
+      position: relative; z-index: 1;
+      margin-top: 64px;
+      height: 260px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .collection-banner img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center 30%;
+      opacity: .55;
+    }
+    .banner-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--bg) 100%);
+    }
+    .banner-text {
+      position: absolute; bottom: 2.5rem; left: 3.5rem;
+    }
+
+    /* ── MAIN ── */
+    main {
+      position: relative; z-index: 1;
+      padding: 4rem 3.5rem 6rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-label {
+      font-size: .7rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--teal);
+      display: flex; align-items: center; gap: .7rem;
+      margin-bottom: .9rem;
+    }
+    .section-label::before {
+      content: ''; width: 20px; height: 1px;
+      background: var(--teal);
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.1; letter-spacing: -.01em;
+      color: var(--white); margin-bottom: 2.8rem;
+    }
+
+    /* ── GRID ── */
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.4rem;
+      margin-bottom: 3rem;
+    }
+
+    figure.collection-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color .25s, transform .25s;
+      cursor: pointer;
+    }
+    figure.collection-card:hover {
+      border-color: var(--border-h);
+      transform: translateY(-4px);
+    }
+    figure.collection-card .zoomable-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+      transition: transform .35s;
+    }
+    figure.collection-card:hover .zoomable-image {
+      transform: scale(1.03);
+    }
+    figure.collection-card figcaption {
+      padding: .9rem 1.2rem;
+      font-size: .8rem; font-weight: 300;
+      color: var(--muted); line-height: 1.5;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── BACK BUTTON ── */
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: transparent; color: var(--white);
+      font-family: 'Outfit', sans-serif;
+      font-size: .82rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none;
+      padding: .75rem 1.8rem; border-radius: 3px;
+      border: 1px solid rgba(240,247,255,.2);
+      transition: border-color .2s, color .2s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+    .btn-outline::before { content: '←'; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      background: #04090f;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      font-size: .78rem; color: rgba(180,210,240,.25);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(4,9,15,.94);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 92vw; max-height: 90vh;
+      border: 1px solid var(--border); border-radius: 4px;
+    }
+
+    @media (max-width: 760px) {
+      header { padding: 0 1.2rem; }
+      main { padding: 3rem 1.2rem 4rem; }
+      .banner-text { left: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="logo-group">
-      <div class="logo">eli<span>Viz</span> Design</div>
-      <a class="home-icon-link" href="index.html" aria-label="Home">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 3.5 3.5 10v10.5h6.2v-6.6h4.6v6.6h6.2V10L12 3.5z"></path>
-        </svg>
-      </a>
-    </div>
-    <nav>
-      <a href="index.html#services">Services</a>
-      <a href="index.html#contact">Contact</a>
-    </nav>
-  </header>
 
-  <section class="collection-banner collection-shell">
-    <img src="images/eli_run_linkedin2.png" alt="Eli running banner">
-  </section>
+<canvas id="dna-canvas"></canvas>
 
-  <main class="collection-main">
-    <section class="collection-section collection-shell">
-      <div class="collection-intro">
-        <div class="section-label">Selected work</div>
-        <h2 class="section-title">Visual Collection</h2>
-      </div>
-      <div class="collection-grid">
-        <figure class="collection-card">
-          <img class="zoomable-image" src="images/red_project.png" alt="Storytelling visual 1">
-          <figcaption>Narrative figure for report storytelling</figcaption>
-        </figure>
-        <figure class="collection-card">
-          <img class="zoomable-image" src="images/methane_swe.png" alt="Methane map for Sweden">
-          <figcaption>Methane-focused visual for regional storytelling</figcaption>
-        </figure>
-        <figure class="collection-card">
-          <img class="zoomable-image" src="images/index_traits_records.png" alt="Methane map for Sweden">
-          <figcaption>Map of claw health disorders included in the genetic evaluation for claw health in NAV</figcaption>
-        </figure>
-        <figure class="collection-card">
-          <img class="zoomable-image" src="images/claw_diagnosis.png" alt="Methane map for Sweden">
-        <figcaption>Map of claw health disorders included in the Nordic genetic evaluation for claw health</figcaption>
-        </figure>
-        <figure class="collection-card">
-          <img class="zoomable-image" src="images/claw_work.png" alt="Methane map for Sweden">
-        <figcaption>Trimming records included in the Nordic genetic evaluation for claw health </figcaption>
-        </figure>
-         <figure class="collection-card">
-         <img class="zoomable-image" src="images/claw_work_colour.png" alt="Methane map for Sweden">
-        <figcaption>Trimming records included in the Nordic genetic evaluation for claw health, in colour</figcaption>
-        </figure>
-        <figure class="collection-card">
-         <img class="zoomable-image" src="images/NMT_infographic.jpg" alt="Methane map for Sweden">
-        <figcaption>Timeline infographic</figcaption>
-        </figure>
-      </div>
-      <div class="collection-footer-actions">
-        <a class="btn-outline" href="index.html#services">Back to main page</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>&copy; 2026 eliViz Design. All rights reserved.</footer>
-  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <img id="lightbox-img" src="" alt="Expanded image">
+<!-- HEADER -->
+<header>
+  <div class="logo-group">
+    <div class="logo">eli<span>Viz</span><sup>Design</sup></div>
+    <a class="home-icon-link" href="index.html" aria-label="Home">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 3.5 3.5 10v10.5h6.2v-6.6h4.6v6.6h6.2V10L12 3.5z"/>
+      </svg>
+    </a>
   </div>
-  <script src="script.js"></script>
+  <nav>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- BANNER -->
+<div class="collection-banner">
+  <img class="zoomable-image" src="images/eli_run_linkedin2.png" alt="eliViz Design banner">
+  <div class="banner-overlay"></div>
+  <div class="banner-text">
+    <div class="section-label">Selected work</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+  <h2>Visual Collection</h2>
+
+  <div class="collection-grid">
+
+    <figure class="collection-card" onclick="openLightbox(this.querySelector(\'img\').src)">
+      <img class="zoomable-image" src="images/red_project.png" alt="Storytelling visual 1">
+      <figcaption>Narrative figure for report storytelling</figcaption>
+    </figure>
+
+    <figure class="collection-card" onclick="openLightbox(this.querySelector(\'img\').src)">
+      <img class="zoomable-image" src="images/methane_swe.png" alt="Methane map for Sweden">
+      <figcaption>Methane-focused visual for regional storytelling</figcaption>
+    </figure>
+
+    <figure class="collection-card" onclick="openLightbox(this.querySelector(\'img\').src)">
+      <img class="zoomable-image" src="images/index_traits_records.png" alt="Index traits records">
+      <figcaption>Map of claw health disorders included in the genetic evaluation for claw health in NAV</figcaption>
+    </figure>
+
+    <figure class="collection-card" onclick="openLightbox(this.querySelector(\'img\').src)">
+      <img class="zoomable-image" src="images/claw_diagnosis.png" alt="Claw diagnosis">
+      <figcaption>Map of claw health disorders included in the Nordic genetic evaluation for claw health</figcaption>
+    </figure>
+
+    <figure class="collection-card" onclick="openLightbox(this.querySelector(\'img\').src)">
+      <img class="zoomable-image" src="images/claw_work.png" alt="Claw work">
+      <figcaption>Trimming records included in the Nordic genetic evaluation for claw health</figcaption>
+    </figure>
+
+    <figure class="collection-card" onclick="openLightbox(this.querySelector(\'img\').src)">
+      <img class="zoomable-image" src="images/claw_work_colour.png" alt="Claw work in colour">
+      <figcaption>Trimming records included in the Nordic genetic evaluation for claw health, in colour</figcaption>
+    </figure>
+
+    <figure class="collection-card" onclick="openLightbox(this.querySelector(\'img\').src)">
+      <img class="zoomable-image" src="images/NMT_infographic.jpg" alt="Timeline infographic">
+      <figcaption>Timeline infographic</figcaption>
+    </figure>
+
+  </div>
+
+  <a class="btn-outline" href="index.html#services">Back to main page</a>
+</main>
+
+<footer>&copy; 2026 eliViz Design. All rights reserved.</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+  <img id="lightbox-img" src="" alt="Expanded image">
+</div>
+
+<script>
+/* ── GENOMIC DOT-NETWORK BACKGROUND ── */
+(function() {
+  const canvas = document.getElementById('dna-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const TEAL  = [18,197,176];
+  const GREEN = [78,202,130];
+  const AMBER = [232,168,48];
+  const BLUE  = [61,142,245];
+  const COLS  = [TEAL, GREEN, AMBER, BLUE];
+
+  let nodes = [];
+  function rgba(c, a) { return `rgba(${c[0]},${c[1]},${c[2]},${a})`; }
+
+  function drawConnections(W, H) {
+    const DIST = Math.min(W, H) * 0.13;
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < DIST) {
+          const alpha = (1 - d / DIST) * 0.08;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = rgba(TEAL, alpha);
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function draw() {
+    const W = canvas.width  = window.innerWidth;
+    const H = canvas.height = window.innerHeight;
+    ctx.clearRect(0, 0, W, H);
+
+    const grd = ctx.createRadialGradient(W*0.5, H*0.38, 0, W*0.5, H*0.38, W*0.65);
+    grd.addColorStop(0,   'rgba(18,197,176,0.04)');
+    grd.addColorStop(0.5, 'rgba(13,28,48,0)');
+    grd.addColorStop(1,   'transparent');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, W, H);
+
+    nodes = [];
+    const N = Math.floor((W * H) / 9000);
+    for (let i = 0; i < N; i++) {
+      nodes.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 1 + Math.random() * 2.4,
+        col: COLS[Math.floor(Math.random() * 4)],
+        a: 0.18 + Math.random() * 0.38
+      });
+    }
+
+    drawConnections(W, H);
+
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = rgba(n.col, n.a);
+      ctx.fill();
+    });
+  }
+
+  draw();
+  window.addEventListener('resize', draw);
+})();
+
+/* ── LIGHTBOX ── */
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(e) {
+  if (e.target === document.getElementById('lightbox') ||
+      e.target === document.getElementById('lightbox-img')) {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+}
+</script>
 </body>
 </html>
