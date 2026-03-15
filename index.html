@@ -5,106 +5,658 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>eliViz Design – Science Visualization</title>
   <meta name="description" content="Transforming science into clear, pedagogical visuals and data stories.">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07101e;
+      --bg-mid:    #0d1c30;
+      --bg-card:   #0f2038;
+      --teal:      #12c5b0;
+      --teal-dim:  rgba(18,197,176,.15);
+      --teal-glow: rgba(18,197,176,.08);
+      --green:     #4eca82;
+      --amber:     #e8a830;
+      --blue:      #3d8ef5;
+      --white:     #f0f7ff;
+      --muted:     rgba(180,210,240,.5);
+      --border:    rgba(18,197,176,.12);
+      --border-h:  rgba(18,197,176,.3);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── DNA CANVAS BACKGROUND ── */
+    #dna-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 1;
+    }
+
+    /* ── NAV ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3.5rem; height: 64px;
+      background: rgba(7,16,30,.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem; font-weight: 600;
+      letter-spacing: .04em; color: var(--white);
+    }
+    .logo span { color: var(--teal); }
+    .logo sup {
+      font-size: .55rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--muted);
+      vertical-align: super; margin-left: 3px;
+    }
+    nav { display: flex; gap: 2.5rem; }
+    nav a {
+      font-size: .8rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: color .2s;
+    }
+    nav a:hover { color: var(--teal); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 9rem 3.5rem 5rem;
+      text-align: center;
+    }
+
+    .hero-inner { max-width: 820px; }
+
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .7rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--teal);
+      border: 1px solid rgba(18,197,176,.3);
+      padding: .32rem 1rem; border-radius: 2rem;
+      margin-bottom: 2rem;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-pill::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(.7); }
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.1; letter-spacing: -.02em;
+      color: var(--white); margin-bottom: 1.5rem;
+      animation: fadeUp .8s .1s ease both;
+    }
+    h1 em { font-style: italic; color: var(--teal); }
+
+    .hero-sub {
+      font-size: 1.05rem; font-weight: 300;
+      color: var(--muted); max-width: 560px; margin: 0 auto 2.5rem;
+      line-height: 1.75;
+      animation: fadeUp .8s .2s ease both;
+    }
+
+    .cta-row {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp .8s .3s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--teal); color: #07101e;
+      font-family: 'Outfit', sans-serif;
+      font-size: .82rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none;
+      padding: .75rem 1.8rem; border-radius: 3px;
+      transition: background .2s, transform .2s;
+    }
+    .btn-primary:hover { background: #0fad9b; transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: transparent; color: var(--white);
+      font-family: 'Outfit', sans-serif;
+      font-size: .82rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none;
+      padding: .75rem 1.8rem; border-radius: 3px;
+      border: 1px solid rgba(240,247,255,.2);
+      transition: border-color .2s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+
+    /* base-pair accent strip */
+    .base-strip {
+      display: flex; justify-content: center; gap: 4px;
+      margin-top: 4rem;
+      animation: fadeUp .8s .5s ease both;
+    }
+    .base {
+      width: 8px; height: 28px; border-radius: 2px;
+      opacity: .45;
+    }
+    .base.a { background: var(--teal); }
+    .base.t { background: var(--green); }
+    .base.g { background: var(--amber); }
+    .base.c { background: var(--blue); }
+
+    /* ── SECTION SHARED ── */
+    section { position: relative; z-index: 1; padding: 6rem 3.5rem; }
+    .inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-size: .7rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--teal);
+      display: flex; align-items: center; gap: .7rem;
+      margin-bottom: .9rem;
+    }
+    .section-label::before {
+      content: ''; width: 20px; height: 1px;
+      background: var(--teal);
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      line-height: 1.1; letter-spacing: -.01em;
+      color: var(--white); margin-bottom: 1rem;
+    }
+    h2 span { color: var(--teal); }
+
+    .lead {
+      font-size: 1rem; font-weight: 300; color: var(--muted);
+      max-width: 600px; line-height: 1.75; margin-bottom: 3rem;
+    }
+
+    /* ── SERVICES / CARDS ── */
+    #services { background: var(--bg-mid); border-top: 1px solid var(--border); }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.4rem;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: border-color .25s, transform .25s;
+      display: flex; flex-direction: column;
+    }
+    .card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--teal), transparent);
+      opacity: 0; transition: opacity .25s;
+    }
+    .card:hover { border-color: var(--border-h); transform: translateY(-4px); }
+    .card:hover::after { opacity: 1; }
+
+    .card-icon {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; margin-bottom: 1.1rem;
+      background: var(--teal-glow);
+    }
+    .card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--white); margin-bottom: .5rem; line-height: 1.3;
+    }
+    .card h3 a { color: inherit; text-decoration: none; }
+    .card h3 a:hover { color: var(--teal); }
+    .card p {
+      font-size: .88rem; font-weight: 300;
+      color: var(--muted); line-height: 1.65; flex: 1;
+    }
+    .card .card-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      margin-top: 1.2rem; font-size: .78rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s;
+    }
+    .card .card-link:hover { border-color: var(--teal); }
+    .card .card-link::after { content: '→'; }
+
+    /* ── BASE PAIR LEGEND ── */
+    .bp-legend {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      margin-top: 4rem; padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .bp-item {
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .8rem; font-weight: 400; color: var(--muted);
+    }
+    .bp-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      border-top: 1px solid var(--border);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .sequence-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      font-family: 'Courier New', monospace;
+      font-size: .78rem;
+      line-height: 1.9;
+      overflow: hidden;
+    }
+    .seq-line { display: flex; gap: .5rem; }
+    .seq-num { color: var(--muted); min-width: 28px; }
+    .seq-a { color: var(--teal); }
+    .seq-t { color: var(--green); }
+    .seq-g { color: var(--amber); }
+    .seq-c { color: var(--blue); }
+    .seq-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: .65rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: .8rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg-mid);
+      border-top: 1px solid var(--border);
+    }
+    .contact-box {
+      max-width: 680px; margin: 0 auto; text-align: center;
+    }
+    .contact-box h2 { margin-bottom: .8rem; }
+    .contact-box p {
+      font-size: 1rem; font-weight: 300; color: var(--muted);
+      line-height: 1.75; margin-bottom: 2.5rem;
+    }
+    .contact-links {
+      display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;
+    }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: .85rem 1.8rem;
+      font-size: .88rem; font-weight: 500;
+      color: var(--white); text-decoration: none;
+      transition: border-color .2s, transform .2s, color .2s;
+    }
+    .contact-link:hover {
+      border-color: var(--teal); color: var(--teal);
+      transform: translateY(-3px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #04090f;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      font-size: .78rem; color: rgba(180,210,240,.25);
+      position: relative; z-index: 1;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(4,9,15,.92);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 90vw; max-height: 88vh;
+      border: 1px solid var(--border); border-radius: 4px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 760px) {
+      header { padding: 0 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .hero { padding: 8rem 1.5rem 4rem; }
+      .about-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">eli<span>Viz</span> Design</div>
-    <nav>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<!-- DNA HELIX CANVAS -->
+<canvas id="dna-canvas"></canvas>
 
-  <section class="hero">
-    <div class="blob-green"></div>
-    <div class="hero-inner">
-      <div class="hero-layout">
-        <div class="hero-text">
-          <div class="hero-pill">Science × Data x Design</div>
-          <h1>Turning Science into<br><em>Clear, Impactful Visuals</em></h1>
-          <p>I transform complex data into pedagogical figures and interactive visualizations that tell a story and engage your audience.</p>
-          <div class="cta-row">
-            <a class="btn-primary" href="#contact">Let's work together</a>
-            <a class="btn-outline" href="#services">See the work</a>
-          </div>
-        </div>
-        <div class="hero-portrait">
-          <div class="portrait-ring">
-            <img src="images/eli.png" alt="Eli – eliViz Design">
-          </div>
-        </div>
-      </div>
+<!-- NAV -->
+<header>
+  <div class="logo">eli<span>Viz</span><sup>Design</sup></div>
+  <nav>
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-pill">Science × Data × Design</div>
+    <h1>Turning Science into<br><em>Clear, Impactful Visuals</em></h1>
+    <p class="hero-sub">I transform complex data and scientific findings into pedagogical figures and interactive visualizations that tell a story and engage your audience.</p>
+    <div class="cta-row">
+      <a class="btn-primary" href="#contact">Let's work together</a>
+      <a class="btn-outline" href="#services">See the work</a>
     </div>
-  </section>
+    <div class="base-strip" title="ATGCATGCATGC – DNA base pairs">
+      <div class="base a"></div><div class="base t"></div>
+      <div class="base g"></div><div class="base c"></div>
+      <div class="base a"></div><div class="base t"></div>
+      <div class="base g"></div><div class="base c"></div>
+      <div class="base a"></div><div class="base t"></div>
+      <div class="base g"></div><div class="base c"></div>
+      <div class="base a"></div><div class="base t"></div>
+      <div class="base g"></div><div class="base c"></div>
+    </div>
+  </div>
+</section>
 
-  <section id="services">
+<!-- SERVICES -->
+<section id="services">
+  <div class="inner">
     <div class="section-label">What I do</div>
-    <h2 class="section-title">Services</h2>
+    <h2>Services</h2>
+    <p class="lead">From raw data to publication-ready figures — scientific precision meets design clarity at every step.</p>
 
     <div class="cards-grid">
+
       <div class="card">
         <div class="card-icon">📊</div>
-        <h3>Storytelling with visuals</h3>
+        <h3>Storytelling with Visuals</h3>
         <p>We combine narrative and design to help your audience understand and act on your findings.</p>
-        <a href="storytelling-collection.html" class="card-image-link" aria-label="Open storytelling visuals collection">
-          <img src="images/red_project.png" alt="Storytelling example">
+        <a href="storytelling-collection.html" class="card-image-link" aria-label="Open storytelling visuals collection" style="display:block;margin-top:1.2rem;overflow:hidden;border-radius:4px;border:1px solid var(--border)">
+          <img src="images/red_project.png" alt="Storytelling example" style="width:100%;display:block;transition:transform .3s;border-radius:4px" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
         </a>
       </div>
 
       <div class="card">
         <div class="card-icon">🔬</div>
-        <h3>Scientific posters</h3>
-        <p>Pedagogical diagrams and schematics tailored for publications, reports, and educational material.</p>
-        <img src="images/Poster_Methane_ICAR.png" alt="Scientific illustration" onclick="openLightbox(this.src)">
+        <h3>Scientific Posters</h3>
+        <p>Pedagogical diagrams and schematics tailored for publications, conference posters, reports, and educational material.</p>
+        <a href="#contact" class="card-link">Inquire</a>
       </div>
 
       <div class="card">
         <div class="card-icon">📈</div>
-        <h3>
-          <a href="images/eliviz_igenity_NAV_correlations.html" class="card-title-link">
-            Data Visualization
-          </a>
-        </h3>
-        <p>Interactive charts and figures that make complex analyses clear and engaging.</p>
-        <img src="images/box_plot.jpg" alt="Data visualization example" onclick="openLightbox(this.src)">
+        <h3><a href="images/eliviz_igenity_NAV_correlations.html">Data Visualization</a></h3>
+        <p>Interactive charts and figures that make complex analyses clear and engaging for specialist and general audiences alike.</p>
+        <a href="images/eliviz_igenity_NAV_correlations.html" class="card-link">See example</a>
       </div>
 
       <div class="card">
         <div class="card-icon">🧬</div>
         <h3>Animal Breeding &amp; Genetics</h3>
-        <p>Specialized visuals for animal breeding and genetics</p>
-        <img src="images/ss.png" alt="Animal breeding example" onclick="openLightbox(this.src)">
+        <p>Specialized visuals for genomics, animal breeding, quantitative genetics, and related scientific domains.</p>
+        <a href="#contact" class="card-link">Discuss project</a>
+      </div>
+
+    </div>
+
+    <div class="bp-legend">
+      <div class="bp-item"><span class="bp-dot" style="background:var(--teal)"></span>Adenine (A)</div>
+      <div class="bp-item"><span class="bp-dot" style="background:var(--green)"></span>Thymine (T)</div>
+      <div class="bp-item"><span class="bp-dot" style="background:var(--amber)"></span>Guanine (G)</div>
+      <div class="bp-item"><span class="bp-dot" style="background:var(--blue)"></span>Cytosine (C)</div>
+      <div class="bp-item" style="margin-left:auto;font-size:.72rem;opacity:.6">A always pairs with T &nbsp;·&nbsp; G always pairs with C</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="inner">
+    <div class="about-grid">
+      <div>
+        <div class="section-label">The approach</div>
+        <h2>Science-first.<br><span>Design-driven.</span></h2>
+        <p class="lead">Every visualization begins with understanding the science — the data structure, the hypothesis, the audience. Design choices follow scientific logic, not the other way around.</p>
+        <p style="font-size:.9rem;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:1.5rem">With a background in animal science and data analysis, I bridge the gap between complex quantitative results and clear visual communication. Whether it's a genome-wide association study, a breeding value distribution, or a multi-trait correlation matrix — if it has structure, it has a visual story.</p>
+        <a class="btn-outline" href="#contact">Start a project</a>
+      </div>
+      <div>
+        <div class="seq-label">Sample sequence — Bos taurus chromosome 6</div>
+        <div class="sequence-block">
+          <div class="seq-line"><span class="seq-num">001</span><span><span class="seq-a">A</span><span class="seq-t">T</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-g">G</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-t">T</span></span></div>
+          <div class="seq-line"><span class="seq-num">019</span><span><span class="seq-g">G</span><span class="seq-c">C</span><span class="seq-a">A</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-t">T</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-t">T</span><span class="seq-c">C</span><span class="seq-g">G</span></span></div>
+          <div class="seq-line"><span class="seq-num">037</span><span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-t">T</span><span class="seq-c">C</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-c">C</span></span></div>
+          <div class="seq-line"><span class="seq-num">055</span><span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-t">T</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-t">T</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-t">T</span></span></div>
+          <div class="seq-line"><span class="seq-num">073</span><span><span class="seq-g">G</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-g">G</span></span></div>
+          <div class="seq-line"><span class="seq-num">091</span><span><span class="seq-t">T</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-a">A</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-c">C</span><span class="seq-g">G</span><span class="seq-t">T</span><span class="seq-a">A</span><span class="seq-g">G</span><span class="seq-c">C</span><span class="seq-t">T</span><span class="seq-a">A</span></span></div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="contact">
+<!-- CONTACT -->
+<section id="contact">
+  <div class="inner">
     <div class="contact-box">
-      <div>
-        <h2>Let's Connect</h2>
-        <p>Interested in working together or want to see more?<br>Reach out — I'd love to hear about your project.</p>
-      </div>
+      <div class="section-label" style="justify-content:center;margin-bottom:.8rem">Get in touch</div>
+      <h2>Let's Connect</h2>
+      <p>Interested in working together or want to see more? Reach out — I'd love to hear about your project.</p>
       <div class="contact-links">
-        <a class="contact-link" href="/cdn-cgi/l/email-protection#0f6a63664f6a63667966756b6a7c666861216c6062">
-          ✉️ <span class="__cf_email__" data-cfemail="b2d7dedbf2d7dedbe4dbc8f6d7c1dbd5dc9cd1dddf">[email&#160;protected]</span>
+        <a class="contact-link" href="mailto:eliviz@design.com">
+          ✉ &nbsp;eliviz@design.com
         </a>
         <a class="contact-link" href="https://bio.site/elisendarius" target="_blank" rel="noopener noreferrer">
-          🌐 View my portfolio
+          ⬡ &nbsp;View portfolio
         </a>
       </div>
     </div>
-  </section>
-
-  <footer>&copy; 2026 eliViz Design. All rights reserved.</footer>
-
-  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-    <img id="lightbox-img" src="" alt="Expanded image">
   </div>
+</section>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <script src="script.js"></script>
+<footer>&copy; 2026 eliViz Design. All rights reserved.</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+  <img id="lightbox-img" src="" alt="Expanded image">
+</div>
+
+<script>
+/* ── GENOMIC DOT-NETWORK BACKGROUND ── */
+(function() {
+  const canvas = document.getElementById('dna-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const TEAL  = [18,197,176];
+  const GREEN = [78,202,130];
+  const AMBER = [232,168,48];
+  const BLUE  = [61,142,245];
+  const COLS  = [TEAL, GREEN, AMBER, BLUE];
+
+  let nodes = [];
+
+  function rgba(c, a) { return `rgba(${c[0]},${c[1]},${c[2]},${a})`; }
+
+  function build(W, H) {
+    nodes = [];
+    /* 1 – sparse random scatter nodes */
+    const N = Math.floor((W * H) / 18000);
+    for (let i = 0; i < N; i++) {
+      nodes.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 1.2 + Math.random() * 2.2,
+        col: COLS[Math.floor(Math.random() * 4)],
+        a: 0.25 + Math.random() * 0.45,
+        kind: 'scatter'
+      });
+    }
+    /* 2 – two vertical sine-wave "chromosome" paths */
+    [0.22, 0.72].forEach((xFrac, si) => {
+      const cx = xFrac * W;
+      const spacing = 18;
+      const amp = 44 + si * 14;
+      const phase = si * 1.3;
+      const total = Math.ceil(H / spacing) + 2;
+      const col = si === 0 ? TEAL : BLUE;
+      for (let i = 0; i < total; i++) {
+        const y = i * spacing;
+        const wave = Math.sin(y * 0.032 + phase);
+        nodes.push({ x: cx + wave * amp,  y, r: 2,   col, a: 0.28, kind: 'strand' });
+        nodes.push({ x: cx - wave * amp,  y, r: 2,   col, a: 0.28, kind: 'strand', pair: true, pairWave: wave, pairCx: cx, pairAmp: amp, pairY: y });
+      }
+    });
+  }
+
+  function drawConnections(W, H, nodes) {
+    /* connect scatter nodes within radius */
+    const DIST = Math.min(W, H) * 0.13;
+    const scatter = nodes.filter(n => n.kind === 'scatter');
+    for (let i = 0; i < scatter.length; i++) {
+      for (let j = i + 1; j < scatter.length; j++) {
+        const dx = scatter[i].x - scatter[j].x;
+        const dy = scatter[i].y - scatter[j].y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < DIST) {
+          const alpha = (1 - d / DIST) * 0.08;
+          ctx.beginPath();
+          ctx.moveTo(scatter[i].x, scatter[i].y);
+          ctx.lineTo(scatter[j].x, scatter[j].y);
+          ctx.strokeStyle = rgba(TEAL, alpha);
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function drawStrands(nodes) {
+    /* strand backbone lines + rungs */
+    [0.22, 0.72].forEach((_, si) => {
+      const strand = nodes.filter(n => n.kind === 'strand');
+      const left  = strand.filter((n, idx) => idx % 2 === 0);
+      const right = strand.filter((n, idx) => idx % 2 === 1);
+      const half  = si === 0 ? left.slice(0, left.length/2|0) : left.slice(left.length/2|0);
+      const half2 = si === 0 ? right.slice(0, right.length/2|0) : right.slice(right.length/2|0);
+      const col = si === 0 ? TEAL : BLUE;
+
+      // backbone
+      [half, half2].forEach(arr => {
+        ctx.beginPath();
+        arr.forEach((n, i) => i === 0 ? ctx.moveTo(n.x, n.y) : ctx.lineTo(n.x, n.y));
+        ctx.strokeStyle = rgba(col, 0.14);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      // rungs
+      const len = Math.min(half.length, half2.length);
+      for (let i = 0; i < len; i++) {
+        const wave = Math.sin(half[i].y * 0.032 + (si * 1.3));
+        const a = (Math.abs(wave) < 0.25) ? 0.22 : 0.07;
+        ctx.beginPath();
+        ctx.moveTo(half[i].x, half[i].y);
+        ctx.lineTo(half2[i].x, half2[i].y);
+        ctx.strokeStyle = rgba(col, a);
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+      }
+    });
+  }
+
+  function draw() {
+    const W = canvas.width  = window.innerWidth;
+    const H = canvas.height = window.innerHeight;
+    ctx.clearRect(0, 0, W, H);
+
+    /* subtle radial vignette gradient centre glow */
+    const grd = ctx.createRadialGradient(W*0.5, H*0.38, 0, W*0.5, H*0.38, W*0.65);
+    grd.addColorStop(0,   'rgba(18,197,176,0.04)');
+    grd.addColorStop(0.5, 'rgba(13,28,48,0)');
+    grd.addColorStop(1,   'transparent');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, W, H);
+
+    /* scatter nodes only – no strands */
+    nodes = [];
+    const N = Math.floor((W * H) / 9000);
+    for (let i = 0; i < N; i++) {
+      nodes.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 1 + Math.random() * 2.4,
+        col: COLS[Math.floor(Math.random() * 4)],
+        a: 0.18 + Math.random() * 0.38
+      });
+    }
+
+    drawConnections(W, H, nodes);
+
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = rgba(n.col, n.a);
+      ctx.fill();
+    });
+  }
+
+  draw();
+  window.addEventListener('resize', draw);
+})();
+
+/* ── LIGHTBOX ── */
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(e) {
+  if (e.target === document.getElementById('lightbox') || e.target === document.getElementById('lightbox-img')) {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+}
+
+/* make card images open lightbox */
+document.querySelectorAll('.card img').forEach(img => {
+  img.style.cursor = 'pointer';
+  img.addEventListener('click', () => openLightbox(img.src));
+});
+</script>
 </body>
 </html>
